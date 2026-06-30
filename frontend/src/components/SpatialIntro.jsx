@@ -1195,22 +1195,29 @@ export default function SpatialIntro({ onDone }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Fade audio out gently when the QRHub logo (final phase) appears
+  // Fade audio out gently when the QRHub logo (final phase) appears —
+  // play a bit longer, then fade right before handing over to the slides.
   useEffect(() => {
     if (phase !== SCRIPT.length - 1) return;
     const a = audioRef.current;
     if (!a) return;
-    const id = setInterval(() => {
-      const au = audioRef.current;
-      if (!au) return clearInterval(id);
-      if (au.volume <= 0.04) {
-        au.volume = 0;
-        clearInterval(id);
-      } else {
-        au.volume = Math.max(0, au.volume - 0.035);
-      }
-    }, 130);
-    return () => clearInterval(id);
+    let id;
+    const startTimer = setTimeout(() => {
+      id = setInterval(() => {
+        const au = audioRef.current;
+        if (!au) return clearInterval(id);
+        if (au.volume <= 0.03) {
+          au.volume = 0;
+          clearInterval(id);
+        } else {
+          au.volume = Math.max(0, au.volume - 0.024);
+        }
+      }, 130);
+    }, 2200);
+    return () => {
+      clearTimeout(startTimer);
+      if (id) clearInterval(id);
+    };
   }, [phase]);
 
   const toggleMute = () => {
