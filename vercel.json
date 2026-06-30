@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd frontend && yarn install --frozen-lockfile && CI=false yarn build",
+  "installCommand": "cd frontend && yarn install --frozen-lockfile",
+  "outputDirectory": "frontend/build",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
