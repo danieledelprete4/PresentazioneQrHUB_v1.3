@@ -118,10 +118,103 @@ function CodeRainCanvas({ active }) {
       style={{
         width: "100%",
         height: "100%",
-        opacity: 0.32,
+        opacity: 0.22,
         mixBlendMode: "screen",
       }}
     />
+  );
+}
+
+/* ============================================================
+   GEO FIELD — immersive QR-inspired geometry flying from the void
+   Colorful cubes, squares, circles & rings emerge from deep space,
+   rush toward the viewer and dissolve — an abstract composition
+   that frames the forming text. GPU-only transforms.
+   ============================================================ */
+const GEO_COLORS = ["#C8FF00", "#FF6600", "#FFFFFF", "#00E5FF", "#FF2D9B"];
+const GEO_TYPES = ["square", "squareOutline", "circle", "ring", "cube", "plus", "diamond"];
+
+function GeoShape({ type, color, size }) {
+  const glow = `0 0 ${size * 0.7}px ${color}, 0 0 ${size * 0.25}px ${color}`;
+  const radius = size * 0.14;
+  if (type === "circle")
+    return <div style={{ width: size, height: size, borderRadius: "50%", background: color, boxShadow: glow }} />;
+  if (type === "ring")
+    return <div style={{ width: size, height: size, borderRadius: "50%", border: `${Math.max(2, size * 0.13)}px solid ${color}`, boxShadow: glow }} />;
+  if (type === "square")
+    return <div style={{ width: size, height: size, borderRadius: radius, background: color, boxShadow: glow }} />;
+  if (type === "squareOutline")
+    return <div style={{ width: size, height: size, borderRadius: radius, border: `${Math.max(2, size * 0.11)}px solid ${color}`, boxShadow: glow }} />;
+  if (type === "diamond")
+    return <div style={{ width: size, height: size, borderRadius: radius, background: `${color}`, transform: "rotate(45deg)", boxShadow: glow }} />;
+  if (type === "plus")
+    return (
+      <div style={{ position: "relative", width: size, height: size }}>
+        <div style={{ position: "absolute", top: "40%", left: 0, width: "100%", height: "20%", borderRadius: 99, background: color, boxShadow: glow }} />
+        <div style={{ position: "absolute", left: "40%", top: 0, height: "100%", width: "20%", borderRadius: 99, background: color, boxShadow: glow }} />
+      </div>
+    );
+  // cube — CSS 3D wireframe
+  const h = size / 2;
+  const faces = [
+    `translateZ(${h}px)`, `translateZ(-${h}px)`,
+    `rotateY(90deg) translateZ(${h}px)`, `rotateY(-90deg) translateZ(${h}px)`,
+    `rotateX(90deg) translateZ(${h}px)`, `rotateX(-90deg) translateZ(${h}px)`,
+  ];
+  return (
+    <div style={{ width: size, height: size, position: "relative", transformStyle: "preserve-3d", transform: "rotateX(22deg) rotateY(28deg)" }}>
+      {faces.map((tf, i) => (
+        <div key={i} style={{ position: "absolute", inset: 0, borderRadius: radius * 0.6, border: `1.5px solid ${color}`, background: `${color}12`, transform: tf, boxShadow: `inset 0 0 ${size * 0.45}px ${color}66` }} />
+      ))}
+    </div>
+  );
+}
+
+function GeoField({ active }) {
+  const shapes = useMemo(() => {
+    return Array.from({ length: 40 }).map((_, i) => {
+      const r = (n) => (((i + 1) * 9301 + n * 49297) % 233280) / 233280;
+      return {
+        id: i,
+        type: GEO_TYPES[Math.floor(r(1) * GEO_TYPES.length)],
+        color: GEO_COLORS[Math.floor(r(2) * GEO_COLORS.length)],
+        x: 4 + r(3) * 92,
+        y: 6 + r(4) * 88,
+        size: 12 + r(5) * 52,
+        delay: r(6) * 8,
+        dur: 5 + r(7) * 4.5,
+        drift: (r(8) - 0.5) * 22,
+        spin: (r(9) - 0.5) * 520,
+      };
+    });
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: 1000 }} aria-hidden>
+      {shapes.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute"
+          style={{ left: `${s.x}%`, top: `${s.y}%`, willChange: "transform,opacity,filter" }}
+          initial={{ opacity: 0 }}
+          animate={
+            active
+              ? {
+                  opacity: [0, 0.9, 0.95, 0],
+                  scale: [0.12, 0.5, 1.4, 2.8],
+                  x: [0, s.drift, s.drift * 2.2],
+                  y: [0, -s.drift, -s.drift * 1.8],
+                  rotate: [0, s.spin],
+                  filter: ["blur(12px)", "blur(3px)", "blur(0px)", "blur(10px)"],
+                }
+              : { opacity: 0 }
+          }
+          transition={{ duration: s.dur, delay: s.delay, repeat: Infinity, ease: "easeIn" }}
+        >
+          <GeoShape type={s.type} color={s.color} size={s.size} />
+        </motion.div>
+      ))}
+    </div>
   );
 }
 
@@ -917,11 +1010,12 @@ function WelcomeLockup() {
       <span
         style={{
           color: "#C8FF00",
-          fontSize: "clamp(3rem, 12cqw, 14rem)",
-          fontWeight: 800,
-          letterSpacing: "-0.05em",
+          fontSize: "clamp(3.2rem, 12.5cqw, 15rem)",
+          fontWeight: 900,
+          letterSpacing: "-0.06em",
           lineHeight: 0.9,
-          textShadow: "0 0 60px rgba(200,255,0,0.45)",
+          textShadow:
+            "0 3px 0 rgba(0,0,0,0.45), 0 6px 0 rgba(0,0,0,0.28), 0 11px 30px rgba(0,0,0,0.6), 0 0 80px rgba(200,255,0,0.55)",
         }}
       >
         QRHub
@@ -959,26 +1053,27 @@ function SyllableText({ children, baseDelay = 0, charDelay = 0.035, style, mode 
   const text = String(children || "");
   const tokens = mode === "word" ? text.split(/(\s+)/) : text.split("");
   return (
-    <span style={{ display: "inline-block", ...style }}>
+    <span style={{ display: "inline-block", perspective: 700, ...style }}>
       {tokens.map((c, i) => {
         if (c === " " || /^\s+$/.test(c)) {
           return <span key={i} style={{ display: "inline-block", width: "0.32em" }}>&nbsp;</span>;
         }
         // Stable-ish random per char index (deterministic so re-renders match)
-        const sx = (((i * 73) % 100) / 100 - 0.5) * 140;
-        const sy = (((i * 41) % 100) / 100 - 0.5) * 90;
-        const sr = (((i * 17) % 100) / 100 - 0.5) * 28;
+        const sx = (((i * 73) % 100) / 100 - 0.5) * 220;
+        const sy = (((i * 41) % 100) / 100 - 0.5) * 150;
+        const sr = (((i * 17) % 100) / 100 - 0.5) * 55;
+        const sz = -220 - (((i * 53) % 100) / 100) * 420;
         return (
           <motion.span
             key={i}
-            initial={{ opacity: 0, x: sx, y: sy, rotate: sr, scale: 1.6, filter: "blur(6px)" }}
-            animate={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1, filter: "blur(0px)" }}
+            initial={{ opacity: 0, x: sx, y: sy, z: sz, rotate: sr, scale: 2.6, filter: "blur(16px)" }}
+            animate={{ opacity: 1, x: 0, y: 0, z: 0, rotate: 0, scale: 1, filter: "blur(0px)" }}
             transition={{
-              duration: 0.55,
+              duration: 0.85,
               delay: baseDelay + i * charDelay,
               ease: [0.16, 1, 0.3, 1],
             }}
-            style={{ display: "inline-block", whiteSpace: "pre", willChange: "transform,opacity" }}
+            style={{ display: "inline-block", whiteSpace: "pre", willChange: "transform,opacity,filter" }}
           >
             {c}
           </motion.span>
@@ -1052,6 +1147,24 @@ export default function SpatialIntro({ onDone }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Fade audio out gently when the QRHub logo (final phase) appears
+  useEffect(() => {
+    if (phase !== SCRIPT.length - 1) return;
+    const a = audioRef.current;
+    if (!a) return;
+    const id = setInterval(() => {
+      const au = audioRef.current;
+      if (!au) return clearInterval(id);
+      if (au.volume <= 0.04) {
+        au.volume = 0;
+        clearInterval(id);
+      } else {
+        au.volume = Math.max(0, au.volume - 0.035);
+      }
+    }, 130);
+    return () => clearInterval(id);
+  }, [phase]);
+
   const toggleMute = () => {
     setMuted((m) => {
       const next = !m;
@@ -1073,6 +1186,7 @@ export default function SpatialIntro({ onDone }) {
     >
       <Backdrop />
       <CodeRainCanvas active={phase >= 0} />
+      <GeoField active={phase >= 0} />
 
       <audio ref={audioRef} src={AUDIO_SRC} preload="auto" />
 
@@ -1118,11 +1232,12 @@ export default function SpatialIntro({ onDone }) {
                 <h2
                   style={{
                     color: "#ffffff",
-                    fontSize: "clamp(1.6rem, 5.4cqw, 6rem)",
-                    fontWeight: 800,
-                    letterSpacing: "-0.035em",
-                    lineHeight: 1.05,
-                    textShadow: "0 0 40px rgba(0,0,0,0.6)",
+                    fontSize: "clamp(1.9rem, 6cqw, 6.6rem)",
+                    fontWeight: 900,
+                    letterSpacing: "-0.045em",
+                    lineHeight: 1.02,
+                    textShadow:
+                      "0 2px 0 #161616, 0 4px 0 #101010, 0 6px 1px rgba(0,0,0,0.4), 0 9px 20px rgba(0,0,0,0.7), 0 0 60px rgba(200,255,0,0.20)",
                     margin: 0,
                   }}
                 >
