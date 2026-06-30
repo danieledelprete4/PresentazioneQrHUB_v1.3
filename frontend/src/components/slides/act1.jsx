@@ -38,7 +38,7 @@ const Manifesto = () => (
       <h2 className="t-h1 text-white/90 leading-[1.08]">C'è chi genera QR.</h2>
     </FadeUp>
     <FadeUp delay={0.7}>
-      <h2 className="t-h1 leading-[1.08] glow-lime" style={{ color: "#C8FF00" }}>E chi fidelizza.</h2>
+      <h2 className="t-h1 leading-[1.08] glow-lime" style={{ color: "#C8FF00" }}>Noi trasformiamo scansioni in connessioni.</h2>
     </FadeUp>
     <FadeUp delay={1.15}>
       <p className="t-sub mt-[5cqh] max-w-[54cqw] mx-auto">
