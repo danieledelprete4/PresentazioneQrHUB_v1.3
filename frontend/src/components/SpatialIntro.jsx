@@ -1190,7 +1190,8 @@ export default function SpatialIntro({ onDone }) {
 
     return () => {
       timers.forEach(clearTimeout);
-      try { audioRef.current && audioRef.current.pause(); } catch (_e) { /* noop */ }
+      const audioEl = audioRef.current;
+      try { audioEl && audioEl.pause(); } catch (_e) { /* noop */ }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
