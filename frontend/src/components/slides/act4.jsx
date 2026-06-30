@@ -94,6 +94,16 @@ const StoreManager = () => (
     accent="lime"
     title={<>Vedi l'andamento di ogni specialist.</>}
     sub="Panoramica globale dei numeri del team: scansioni, click e trend giornaliero in un colpo d'occhio."
+    src="store_overview.png"
+  />
+);
+
+const ContaPersone = () => (
+  <MacLayout
+    kicker="Conta Persone"
+    accent="orange"
+    title={<>Chi scansiona, chi scrive.</>}
+    sub="Il contapersone del negozio: ogni QR scansionato è un ingresso, ogni conversazione WhatsApp avviata è un cliente caldo, pronto da seguire."
     src="mac_d.png"
   />
 );
@@ -247,7 +257,7 @@ const Preventivatore = () => {
 };
 
 export default [
-  <TitoloUpdate key="s16" />, <StoreManager key="s17" />, <VistaSpecialist key="s18" />,
+  <TitoloUpdate key="s16" />, <StoreManager key="s17" />, <ContaPersone key="s17b" />, <VistaSpecialist key="s18" />,
   <EsportaPDF key="s19" />, <PatternDispositivi key="s20" />, <PushReali key="s21" />,
   <Preventivatore key="s22" />,
 ];
