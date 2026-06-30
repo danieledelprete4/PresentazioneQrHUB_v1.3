@@ -10,8 +10,8 @@ export const ACTS = [
   { name: "Apertura", start: 0, end: 4 },
   { name: "Il Flusso Reale", start: 5, end: 13 },
   { name: "I Numeri", start: 14, end: 19 },
-  { name: "Update Luglio", start: 20, end: 27 },
-  { name: "Chiusura & Vision", start: 28, end: 32 },
+  { name: "Update Luglio", start: 20, end: 31 },
+  { name: "Chiusura & Vision", start: 32, end: 36 },
 ];
 
 export const actNameFor = (i) => (ACTS.find((a) => i >= a.start && i <= a.end) || ACTS[0]).name;

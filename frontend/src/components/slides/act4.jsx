@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { SlideShell } from "../SlideShell";
 import { FadeUp, Kicker, SlideIn } from "../primitives";
 import { MacShot, PhoneShot } from "../devices/RealDevices";
-import { ASSET } from "../../lib/brand";
+import { ASSET, REAL } from "../../lib/brand";
 import { FileText, Cloud, MessageCircle, Database } from "lucide-react";
 
 /* Floating motion FX beneath the MacBook — wide pulsing glow + ripples + drifting particles */
@@ -74,6 +74,39 @@ const MacLayout = ({ kicker, title, sub, accent = "lime", src, fxColor }) => {
         <div className="col-span-7 relative h-full flex items-center justify-center">
           <MacFX color={color} />
           <SlideIn delay={0.3} x={70} className="relative z-10 w-full"><MacShot src={src} /></SlideIn>
+        </div>
+      </div>
+    </SlideShell>
+  );
+};
+
+/* Generic mockup layout — text left, device shot right (object-contain) */
+const ShotLayout = ({ kicker, title, sub, accent = "lime", src, fxColor }) => {
+  const color = fxColor || (accent === "orange" ? "#FF6600" : "#C8FF00");
+  return (
+    <SlideShell contentClassName="">
+      <div className="grid grid-cols-12 gap-[4cqw] h-full items-center">
+        <div className="col-span-5 flex flex-col justify-center">
+          <Kicker color={accent}>{kicker}</Kicker>
+          <FadeUp delay={0.2}><h2 className="t-h2 text-white">{title}</h2></FadeUp>
+          {sub && <FadeUp delay={0.45}><p className="t-sub mt-[3cqh]">{sub}</p></FadeUp>}
+        </div>
+        <div className="col-span-7 relative h-full flex items-center justify-center">
+          <MacFX color={color} />
+          <SlideIn delay={0.3} x={70} className="relative z-10 w-full flex items-center justify-center">
+            <img
+              src={REAL(src)}
+              alt=""
+              draggable={false}
+              style={{
+                maxHeight: "86cqh",
+                maxWidth: "100%",
+                width: "auto",
+                objectFit: "contain",
+                filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.6))",
+              }}
+            />
+          </SlideIn>
         </div>
       </div>
     </SlideShell>
@@ -256,8 +289,109 @@ const Preventivatore = () => {
   );
 };
 
+/* NEW — Recensioni Google (mockup) */
+const Recensioni = () => (
+  <ShotLayout
+    kicker="Recensioni Google · Ultimi 30 giorni"
+    accent="lime"
+    title={<>280 recensioni in 30 giorni.</>}
+    sub="Tracciate nel tempo, negozio per negozio. In testa WINDTRE Vittorio Veneto con 61 recensioni — il 21,8% del totale raccolto."
+    src="reviews_dash.png"
+  />
+);
+
+/* NEW — Classifica recensioni per negozio (stile Top Venditori) */
+const RecensioniRanking = () => {
+  const stores = [
+    { name: "WINDTRE Vittorio Veneto", v: 61 },
+    { name: "WINDTRE · C.C. San Bonifacio", v: 51 },
+    { name: "WINDTRE · C.C. Emisfero", v: 48 },
+    { name: "WINDTRE · C.C. Il Gotico", v: 42 },
+    { name: "WINDTRE Corso Milano VR", v: 21 },
+    { name: "WINDTRE · C.C. Galassia", v: 21 },
+    { name: "WINDTRE · C.C. Il Faro", v: 18 },
+    { name: "WINDTRE Castelnuovo del Garda", v: 9 },
+    { name: "WINDTRE · Corso Vittorio E.", v: 9 },
+  ];
+  const max = stores[0].v;
+  const total = stores.reduce((s, r) => s + r.v, 0);
+  const medals = ["#FFD24A", "#C0C7D0", "#CD7F4D"];
+  return (
+    <SlideShell contentClassName="justify-center">
+      <Kicker color="orange">Recensioni · Classifica Negozi</Kicker>
+      <FadeUp delay={0.15}>
+        <h2 className="t-h2 text-white mb-[1cqh]">Chi raccoglie più recensioni.</h2>
+      </FadeUp>
+      <FadeUp delay={0.25}>
+        <p className="t-body text-white/45 mb-[3cqh]">{total} recensioni totali · 9 negozi attivi</p>
+      </FadeUp>
+      <div className="space-y-[1.1cqh]">
+        {stores.map((s, i) => (
+          <motion.div
+            key={s.name}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25 + i * 0.07, duration: 0.55 }}
+            className="flex items-center gap-[1.4cqw]"
+          >
+            <span
+              className="font-extrabold tabular-nums text-right"
+              style={{ fontSize: "clamp(0.85rem,1.8cqw,2rem)", color: i < 3 ? medals[i] : "#52525B", width: "3cqw" }}
+            >
+              {i + 1}
+            </span>
+            <span className="text-white font-semibold truncate" style={{ width: "26cqw", fontSize: "clamp(0.78rem,1.5cqw,1.7rem)" }}>
+              {s.name}
+            </span>
+            <div className="flex-1 rounded-full bg-white/5 overflow-hidden" style={{ height: "2cqh" }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: i < 3 ? medals[i] : "#FF6600" }}
+                initial={{ width: 0 }}
+                animate={{ width: `${(s.v / max) * 100}%` }}
+                transition={{ delay: 0.3 + i * 0.07, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </div>
+            <span className="text-white font-bold tabular-nums" style={{ width: "8cqw", textAlign: "right", fontSize: "clamp(0.78rem,1.5cqw,1.7rem)" }}>
+              {s.v} <span className="text-white/40" style={{ fontSize: "0.62em" }}>REC</span>
+            </span>
+            <span className="text-white/50 tabular-nums" style={{ width: "5.5cqw", textAlign: "right", fontSize: "clamp(0.7rem,1.2cqw,1.4rem)" }}>
+              {((s.v / total) * 100).toFixed(1)}%
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </SlideShell>
+  );
+};
+
+/* NEW — Monitoraggio Notifiche Push (mockup) */
+const MonitoraggioPush = () => (
+  <ShotLayout
+    kicker="Notifiche Push · Monitoraggio"
+    accent="orange"
+    title={<>Ogni push, misurata.</>}
+    sub="Iscritti, notifiche inviate, click e CTR: il nuovo modulo monitora l'efficacia di ogni annuncio, vendor per vendor."
+    src="push_monitor.png"
+  />
+);
+
+/* NEW — Store Landing Funnel (mockup) */
+const StoreLandingFunnel = () => (
+  <ShotLayout
+    kicker="Store Landing · Funnel lead-gen"
+    accent="lime"
+    title={<>Misuriamo tutto il funnel.</>}
+    sub="Atterraggi → visitatori coinvolti → click CTA → form WINDTRE. Conversion rate e bounce, negozio per negozio."
+    src="landing_funnel.png"
+  />
+);
+
 export default [
   <TitoloUpdate key="s16" />, <StoreManager key="s17" />, <ContaPersone key="s17b" />, <VistaSpecialist key="s18" />,
-  <EsportaPDF key="s19" />, <PatternDispositivi key="s20" />, <PushReali key="s21" />,
+  <EsportaPDF key="s19" />, <PatternDispositivi key="s20" />,
+  <Recensioni key="s20a" />, <RecensioniRanking key="s20b" />,
+  <PushReali key="s21" />, <MonitoraggioPush key="s21b" />,
+  <StoreLandingFunnel key="s21c" />,
   <Preventivatore key="s22" />,
 ];
