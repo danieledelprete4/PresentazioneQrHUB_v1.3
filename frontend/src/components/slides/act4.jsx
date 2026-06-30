@@ -103,7 +103,7 @@ const ContaPersone = () => (
     kicker="Conta Persone"
     accent="orange"
     title={<>C'è chi scansiona, e chi scrive.</>}
-    sub="Il contapersone del negozio: ogni QR scansionato è un ingresso, ogni conversazione WhatsApp avviata è un cliente caldo. Gli altri li chiamiamo «passanti»."
+    sub="Il contapersone del negozio: ogni QR scansionato è un ingresso, ogni conversazione WhatsApp avviata è un cliente caldo, pronto da seguire."
     src="mac_d.png"
   />
 );
@@ -123,7 +123,7 @@ const EsportaPDF = () => (
     kicker="Esporta PDF"
     accent="lime"
     title={<>Report scaricabile.</>}
-    sub="Analytics dettagliata, pronta da esportare. Un PDF, e la riunione si scrive da sola."
+    sub="Analytics dettagliata, pronta da esportare. Per riunioni, valutazioni e coaching."
     src="mac_b.png"
   />
 );
