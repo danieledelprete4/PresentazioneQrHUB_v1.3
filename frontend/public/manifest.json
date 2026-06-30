@@ -1,0 +1,10 @@
+{
+  "short_name": "QRHub Keynote",
+  "name": "QRHub — Keynote VDN Partner WindTre",
+  "start_url": ".",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": []
+}
