@@ -26,6 +26,28 @@ const Cover = () => (
   </SlideShell>
 );
 
+/* SLIDE — Manifesto / Posizionamento */
+const Manifesto = () => (
+  <SlideShell
+    bg="hero_cover_bg.png"
+    overlay="radial-gradient(130% 130% at 50% 45%, rgba(255,102,0,0.06) 0%, rgba(0,0,0,0.9) 70%)"
+    contentClassName="items-center justify-center text-center"
+  >
+    <Kicker color="orange">Posizionamento</Kicker>
+    <FadeUp delay={0.3}>
+      <h2 className="t-h1 text-white/90 leading-[1.08]">C'è chi genera QR.</h2>
+    </FadeUp>
+    <FadeUp delay={0.7}>
+      <h2 className="t-h1 leading-[1.08] glow-lime" style={{ color: "#C8FF00" }}>E chi genera relazioni.</h2>
+    </FadeUp>
+    <FadeUp delay={1.15}>
+      <p className="t-sub mt-[5cqh] max-w-[54cqw] mx-auto">
+        Non siamo l'ennesimo generatore di codici. QRHub trasforma una scansione in un cliente che <span className="text-white font-medium">resta</span>.
+      </p>
+    </FadeUp>
+  </SlideShell>
+);
+
 /* SLIDE 2 — La Genesi */
 const Genesi = () => (
   <SlideShell bg="update_slide_bg.png" overlay="linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.82) 50%, rgba(0,0,0,0.55) 100%)" contentClassName="">
@@ -79,4 +101,4 @@ const Soluzione = () => (
   </SlideShell>
 );
 
-export default [<Cover key="s1" />, <Genesi key="s2" />, <Problema key="s3" />, <Soluzione key="s4" />];
+export default [<Cover key="s1" />, <Manifesto key="s1b" />, <Genesi key="s2" />, <Problema key="s3" />, <Soluzione key="s4" />];

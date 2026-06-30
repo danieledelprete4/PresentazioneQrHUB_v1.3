@@ -860,7 +860,7 @@ function RoadmapVisual() {
     { t: "Notifiche Push Annunci",   c: "#C8FF00" },
     { t: "Store Landing",            c: "#FFFFFF" },
     { t: "Analisi Vendor",           c: "#FF6600" },
-    { t: "Tunnel Marketing",         c: "#C8FF00" },
+    { t: "Funnel Marketing",         c: "#C8FF00" },
   ];
   return (
     <div
