@@ -533,17 +533,18 @@ function CartellinoVisual() {
     return arr;
   }, []);
 
-  // Layout: QR area 108×108 starting at x=46, y=115
-  const QR_X = 46, QR_Y = 115, QR_W = 108;
+  // Layout: QR area starting positions (on a white panel over the dark card)
+  const QR_X = 50, QR_Y = 132, QR_W = 100;
   const cell = QR_W / QR_N; // module size
+  const mr = cell * 0.28; // rounded module radius
 
   return (
     <motion.svg
-      viewBox="0 0 200 290"
+      viewBox="0 0 200 300"
       style={{
         width: "clamp(8rem, 19cqw, 16rem)",
         height: "auto",
-        filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.55))",
+        filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.65)) drop-shadow(0 0 40px rgba(200,255,0,0.12))",
         willChange: "transform,opacity",
       }}
       initial={{ opacity: 0, scale: 0.6, rotate: -6 }}
@@ -551,102 +552,152 @@ function CartellinoVisual() {
       transition={{ duration: 0.7, ease: EASE }}
     >
       <defs>
-        <linearGradient id="cardG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#fff" />
-          <stop offset="100%" stopColor="#ececec" />
+        <linearGradient id="cardG" x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0%" stopColor="#23252c" />
+          <stop offset="55%" stopColor="#14151a" />
+          <stop offset="100%" stopColor="#0a0b0e" />
         </linearGradient>
-        <linearGradient id="orG" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id="edgeG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#C8FF00" />
+          <stop offset="50%" stopColor="#9ad000" />
+          <stop offset="100%" stopColor="#FF6600" />
+        </linearGradient>
+        <linearGradient id="topG" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#FF6600" />
-          <stop offset="100%" stopColor="#ff8533" />
+          <stop offset="55%" stopColor="#ff8a3d" />
+          <stop offset="100%" stopColor="#C8FF00" />
         </linearGradient>
+        <linearGradient id="glossG" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
+          <stop offset="35%" stopColor="#ffffff" stopOpacity="0.04" />
+          <stop offset="60%" stopColor="#ffffff" stopOpacity="0" />
+        </linearGradient>
+        <radialGradient id="panelG" cx="0.5" cy="0.4" r="0.8">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#eef0ee" />
+        </radialGradient>
       </defs>
 
-      {/* Lanyard */}
+      {/* Lanyard straps converging to a metallic clip */}
       <motion.path
-        d="M 100 0 L 100 50"
-        stroke="rgba(255,255,255,0.55)"
-        strokeWidth="2.5"
+        d="M 86 2 L 96 40 M 114 2 L 104 40"
+        stroke="rgba(255,255,255,0.28)"
+        strokeWidth="3"
         fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.45, ease: EASE }}
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: EASE }}
       />
-      {/* Card outline */}
-      <motion.path
-        d="M 32 50 L 168 50 Q 180 50 180 62 L 180 262 Q 180 274 168 274 L 32 274 Q 20 274 20 262 L 20 62 Q 20 50 32 50 Z"
-        fill="transparent"
-        stroke="#C8FF00"
-        strokeWidth="1.5"
+      {/* Metal clip */}
+      <motion.g
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.35, ease: EASE }}
+      >
+        <rect x="90" y="34" width="20" height="12" rx="3" fill="#3a3d44" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" />
+        <rect x="96" y="30" width="8" height="8" rx="2" fill="#54585f" />
+      </motion.g>
+
+      {/* Glowing accent border (draws in) */}
+      <motion.rect
+        x="18" y="46" width="164" height="234" rx="20"
+        fill="none"
+        stroke="url(#edgeG)"
+        strokeWidth="2.5"
         initial={{ pathLength: 0, opacity: 1 }}
-        animate={{ pathLength: 1, opacity: [1, 1, 0] }}
-        transition={{ pathLength: { duration: 0.9, delay: 0.4, ease: EASE }, opacity: { duration: 0.4, delay: 1.35, ease: EASE } }}
+        animate={{ pathLength: 1, opacity: [1, 1, 0.55] }}
+        transition={{ pathLength: { duration: 1.0, delay: 0.35, ease: EASE }, opacity: { duration: 0.5, delay: 1.3, ease: EASE } }}
+        style={{ filter: "drop-shadow(0 0 6px rgba(200,255,0,0.5))" }}
       />
-      <motion.path
-        d="M 32 50 L 168 50 Q 180 50 180 62 L 180 262 Q 180 274 168 274 L 32 274 Q 20 274 20 262 L 20 62 Q 20 50 32 50 Z"
+      {/* Dark glass card body */}
+      <motion.rect
+        x="18" y="46" width="164" height="234" rx="20"
         fill="url(#cardG)"
+        stroke="rgba(255,255,255,0.08)"
+        strokeWidth="1"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1.25, ease: EASE }}
+        transition={{ duration: 0.5, delay: 1.2, ease: EASE }}
       />
-      {/* Orange header */}
+      {/* Glossy diagonal highlight */}
+      <motion.path
+        d="M 18 66 Q 18 46 38 46 L 150 46 L 70 280 L 38 280 Q 18 280 18 260 Z"
+        fill="url(#glossG)"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1.45 }}
+      />
+
+      {/* Top accent bar */}
       <motion.g
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 0.55, delay: 1.6, ease: EASE }}
-        style={{ transformOrigin: "100px 70px" }}
+        style={{ transformOrigin: "100px 66px" }}
       >
-        <rect x="20" y="50" width="160" height="42" fill="url(#orG)" />
-        <rect x="20" y="92" width="160" height="6" fill="url(#orG)" opacity="0.7" />
+        <rect x="34" y="62" width="132" height="3.5" rx="1.75" fill="url(#topG)" />
       </motion.g>
+
       {/* FEDERICA */}
       <motion.text
-        x="100" y="78"
+        x="100" y="92"
         textAnchor="middle"
-        fill="#fff"
-        fontSize="14"
+        fill="#ffffff"
+        fontSize="16"
         fontWeight="800"
-        style={{ letterSpacing: "0.22em" }}
+        style={{ letterSpacing: "0.2em" }}
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 2.05, ease: EASE }}
+        transition={{ duration: 0.4, delay: 2.0, ease: EASE }}
       >
         FEDERICA
       </motion.text>
+      {/* Role chip */}
+      <motion.g
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 2.15, ease: EASE }}
+      >
+        <rect x="62" y="102" width="76" height="15" rx="7.5" fill="rgba(200,255,0,0.12)" stroke="rgba(200,255,0,0.5)" strokeWidth="0.8" />
+        <text x="100" y="112.5" textAnchor="middle" fill="#C8FF00" fontSize="7" fontWeight="700" style={{ letterSpacing: "0.18em" }}>
+          STORE SPECIALIST
+        </text>
+      </motion.g>
 
-      {/* QR — quiet zone (white box) draws first as outline */}
+      {/* QR — white rounded panel */}
       <motion.rect
-        x={QR_X - 4} y={QR_Y - 4}
-        width={QR_W + 8} height={QR_W + 8}
-        fill="#fff"
-        stroke="#000"
-        strokeWidth="1.5"
+        x={QR_X - 10} y={QR_Y - 10}
+        width={QR_W + 20} height={QR_W + 20}
+        rx="12"
+        fill="url(#panelG)"
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.45, delay: 2.25, ease: EASE }}
-        style={{ transformOrigin: "100px 169px" }}
+        transition={{ duration: 0.45, delay: 2.3, ease: EASE }}
+        style={{ transformOrigin: "100px 182px", filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }}
       />
 
-      {/* QR — finder squares appear first as crisp vector shapes */}
+      {/* QR — rounded finder squares */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.45, delay: 2.55, ease: EASE }}
       >
-        {/* Top-left finder (outer ring + inner block) */}
-        <rect x={QR_X} y={QR_Y} width={cell * 7} height={cell * 7} fill="#000" />
-        <rect x={QR_X + cell} y={QR_Y + cell} width={cell * 5} height={cell * 5} fill="#fff" />
-        <rect x={QR_X + cell * 2} y={QR_Y + cell * 2} width={cell * 3} height={cell * 3} fill="#000" />
+        {/* Top-left finder */}
+        <rect x={QR_X} y={QR_Y} width={cell * 7} height={cell * 7} rx={cell} fill="#0a0b0e" />
+        <rect x={QR_X + cell} y={QR_Y + cell} width={cell * 5} height={cell * 5} rx={cell * 0.7} fill="#fff" />
+        <rect x={QR_X + cell * 2} y={QR_Y + cell * 2} width={cell * 3} height={cell * 3} rx={cell * 0.6} fill="#0a0b0e" />
         {/* Top-right finder */}
-        <rect x={QR_X + cell * (QR_N - 7)} y={QR_Y} width={cell * 7} height={cell * 7} fill="#000" />
-        <rect x={QR_X + cell * (QR_N - 6)} y={QR_Y + cell} width={cell * 5} height={cell * 5} fill="#fff" />
-        <rect x={QR_X + cell * (QR_N - 5)} y={QR_Y + cell * 2} width={cell * 3} height={cell * 3} fill="#000" />
+        <rect x={QR_X + cell * (QR_N - 7)} y={QR_Y} width={cell * 7} height={cell * 7} rx={cell} fill="#0a0b0e" />
+        <rect x={QR_X + cell * (QR_N - 6)} y={QR_Y + cell} width={cell * 5} height={cell * 5} rx={cell * 0.7} fill="#fff" />
+        <rect x={QR_X + cell * (QR_N - 5)} y={QR_Y + cell * 2} width={cell * 3} height={cell * 3} rx={cell * 0.6} fill="#0a0b0e" />
         {/* Bottom-left finder */}
-        <rect x={QR_X} y={QR_Y + cell * (QR_N - 7)} width={cell * 7} height={cell * 7} fill="#000" />
-        <rect x={QR_X + cell} y={QR_Y + cell * (QR_N - 6)} width={cell * 5} height={cell * 5} fill="#fff" />
-        <rect x={QR_X + cell * 2} y={QR_Y + cell * (QR_N - 5)} width={cell * 3} height={cell * 3} fill="#000" />
+        <rect x={QR_X} y={QR_Y + cell * (QR_N - 7)} width={cell * 7} height={cell * 7} rx={cell} fill="#0a0b0e" />
+        <rect x={QR_X + cell} y={QR_Y + cell * (QR_N - 6)} width={cell * 5} height={cell * 5} rx={cell * 0.7} fill="#fff" />
+        <rect x={QR_X + cell * 2} y={QR_Y + cell * (QR_N - 5)} width={cell * 3} height={cell * 3} rx={cell * 0.6} fill="#0a0b0e" />
       </motion.g>
 
-      {/* QR — alignment + timing + data modules with smooth grid fill */}
+      {/* QR — rounded data modules with smooth grid fill */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -654,7 +705,6 @@ function CartellinoVisual() {
       >
         {cells
           .filter(({ r, c }) => {
-            // Skip cells already drawn as finder squares (large vector shapes)
             const inTLF = r < 7 && c < 7;
             const inTRF = r < 7 && c >= QR_N - 7;
             const inBLF = r >= QR_N - 7 && c < 7;
@@ -663,13 +713,14 @@ function CartellinoVisual() {
           .map(({ r, c }, i, arr) => (
             <motion.rect
               key={`${r}-${c}`}
-              x={QR_X + c * cell}
-              y={QR_Y + r * cell}
-              width={cell + 0.05}
-              height={cell + 0.05}
-              fill="#000"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              x={QR_X + c * cell + cell * 0.06}
+              y={QR_Y + r * cell + cell * 0.06}
+              width={cell * 0.88}
+              height={cell * 0.88}
+              rx={mr}
+              fill="#0a0b0e"
+              initial={{ opacity: 0, scale: 0.4 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{
                 duration: 0.18,
                 delay: 3.05 + (i / arr.length) * 0.9,
@@ -679,32 +730,19 @@ function CartellinoVisual() {
           ))}
       </motion.g>
 
-      {/* STORE SPECIALIST */}
+      {/* Bottom brand line */}
       <motion.text
-        x="100" y="248"
+        x="100" y="268"
         textAnchor="middle"
-        fill="#FF6600"
-        fontSize="10"
-        fontWeight="700"
-        style={{ letterSpacing: "0.18em" }}
+        fill="rgba(255,255,255,0.45)"
+        fontSize="7"
+        fontWeight="600"
+        style={{ letterSpacing: "0.2em" }}
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 4.1, ease: EASE }}
       >
-        STORE SPECIALIST
-      </motion.text>
-      <motion.text
-        x="100" y="262"
-        textAnchor="middle"
-        fill="rgba(0,0,0,0.4)"
-        fontSize="7"
-        fontWeight="600"
-        style={{ letterSpacing: "0.15em" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 4.25 }}
-      >
-        WINDTRE PARTNER
+        × WINDTRE PARTNER
       </motion.text>
     </motion.svg>
   );
