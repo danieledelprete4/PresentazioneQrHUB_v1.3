@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX, SkipForward } from "lucide-react";
+import { Volume2, VolumeX, SkipForward, Maximize, Minimize } from "lucide-react";
 import { EASE } from "../lib/brand";
 
 /* ============================================================
@@ -16,18 +16,18 @@ const AUDIO_SRC = (process.env.PUBLIC_URL || "") + "/assets/intro_audio.mp3";
 
 /* Phase script — total ~98s, faster cinematic pacing */
 const SCRIPT = [
-  { id: "title",    main: "QRHub",                                main2: null,                                       sub: "× WINDTRE Partner",                                                                          visual: "qr",        dur: 7000  },
-  { id: "genesi",   main: "La Genesi.",                           main2: null,                                       sub: "Un'idea nata per rimanere vicino al cliente. Trasformare un QR in una leva commerciale senza confini.", visual: "code",      dur: 11000 },
-  { id: "metrics",  main: "30 giorni.",                           main2: null,                                       sub: "1.699 scansioni · 1.311 relazioni dirette.",                                                visual: "metrics",   dur: 11000 },
-  { id: "badge",    main: "Un cartellino.",                       main2: "Un QR.",                                   sub: "Il consulente indossa il cartellino. Il cliente lo porta a casa, nel telefono.",            visual: "cartellino",dur: 13000 },
-  { id: "flow",     main: "Il Flusso.",                           main2: null,                                       sub: "Scansione → Landing → App → Push. In quattro tap, un canale permanente.",                   visual: "flow",      dur: 11000 },
-  { id: "push",     main: "Push gratuite.",                       main2: null,                                       sub: "Annunci e offerte direttamente nel telefono del cliente.",                                  visual: "push",      dur: 10000 },
-  { id: "insights", main: "Il negozio diventa misurabile.",       main2: null,                                       sub: "Orari di picco, dispositivi, comportamenti — dati che diventano decisioni.",                visual: "chart",     dur: 11000 },
-  { id: "july",     main: "Update Luglio.",                       main2: null,                                       sub: "Cinque tasselli per chiudere il loop commerciale.",                                          visual: "roadmap",   dur: 14000 },
-  { id: "welcome",  main: "Open per scelta.",                     main2: null,                                       sub: "QRHub × WINDTRE Partner — la presentazione inizia ora.",                                    visual: "welcome",   dur: 10000 },
+  { id: "title",    main: "QRHub",                                main2: null,                                       sub: "× WINDTRE Partner",                                                                          visual: "qr",        dur: 4500  },
+  { id: "genesi",   main: "La Genesi.",                           main2: null,                                       sub: "Un'idea nata per rimanere vicino al cliente. Trasformare un QR in una leva commerciale senza confini.", visual: "code",      dur: 6500 },
+  { id: "metrics",  main: "30 giorni.",                           main2: null,                                       sub: "1.699 scansioni · 1.311 relazioni dirette.",                                                visual: "metrics",   dur: 6500 },
+  { id: "badge",    main: "Un cartellino.",                       main2: "Un QR.",                                   sub: "Il consulente indossa il cartellino. Il cliente lo porta a casa, nel telefono.",            visual: "cartellino",dur: 8000 },
+  { id: "flow",     main: "Il Flusso.",                           main2: null,                                       sub: "Scansione → Landing → App → Push. In quattro tap, un canale permanente.",                   visual: "flow",      dur: 6500 },
+  { id: "push",     main: "Push gratuite.",                       main2: null,                                       sub: "Annunci e offerte direttamente nel telefono del cliente.",                                  visual: "push",      dur: 6000 },
+  { id: "insights", main: "Il negozio diventa misurabile.",       main2: null,                                       sub: "Orari di picco, dispositivi, comportamenti — dati che diventano decisioni.",                visual: "chart",     dur: 6500 },
+  { id: "july",     main: "Update Luglio.",                       main2: null,                                       sub: "Cinque tasselli per chiudere il loop commerciale.",                                          visual: "roadmap",   dur: 8000 },
+  { id: "welcome",  main: "Open per scelta.",                     main2: null,                                       sub: "QRHub × WINDTRE Partner — la presentazione inizia ora.",                                    visual: "welcome",   dur: 6500 },
 ];
 
-const PREROLL = 800;
+const PREROLL = 500;
 const TOTAL_MS = SCRIPT.reduce((a, s) => a + s.dur, 0); // 110000
 
 /* ============================================================
@@ -172,19 +172,19 @@ function GeoShape({ type, color, size }) {
 
 function GeoField({ active }) {
   const shapes = useMemo(() => {
-    return Array.from({ length: 40 }).map((_, i) => {
+    return Array.from({ length: 52 }).map((_, i) => {
       const r = (n) => (((i + 1) * 9301 + n * 49297) % 233280) / 233280;
       return {
         id: i,
         type: GEO_TYPES[Math.floor(r(1) * GEO_TYPES.length)],
         color: GEO_COLORS[Math.floor(r(2) * GEO_COLORS.length)],
-        x: 4 + r(3) * 92,
-        y: 6 + r(4) * 88,
-        size: 12 + r(5) * 52,
-        delay: r(6) * 8,
-        dur: 5 + r(7) * 4.5,
-        drift: (r(8) - 0.5) * 22,
-        spin: (r(9) - 0.5) * 520,
+        x: 2 + r(3) * 96,
+        y: 2 + r(4) * 96,
+        size: 10 + r(5) * 54,
+        delay: r(6) * 3.5,
+        dur: 2.2 + r(7) * 2.6,
+        drift: (r(8) - 0.5) * 46,
+        spin: (r(9) - 0.5) * 820,
       };
     });
   }, []);
@@ -639,7 +639,7 @@ function CartellinoVisual() {
         <rect x="34" y="62" width="132" height="3.5" rx="1.75" fill="url(#topG)" />
       </motion.g>
 
-      {/* FEDERICA */}
+      {/* NAME */}
       <motion.text
         x="100" y="92"
         textAnchor="middle"
@@ -651,7 +651,7 @@ function CartellinoVisual() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 2.0, ease: EASE }}
       >
-        FEDERICA
+        NAME
       </motion.text>
       {/* Role chip */}
       <motion.g
@@ -799,7 +799,7 @@ function BadgeVisual() {
             fontSize: "clamp(0.55rem, 1.1cqw, 1rem)",
           }}
         >
-          FEDERICA
+          NAME
         </div>
         {/* QR */}
         <div
@@ -1107,7 +1107,7 @@ function SyllableText({ children, baseDelay = 0, charDelay = 0.035, style, mode 
             initial={{ opacity: 0, x: sx, y: sy, z: sz, rotate: sr, scale: 2.6, filter: "blur(16px)" }}
             animate={{ opacity: 1, x: 0, y: 0, z: 0, rotate: 0, scale: 1, filter: "blur(0px)" }}
             transition={{
-              duration: 0.85,
+              duration: 0.6,
               delay: baseDelay + i * charDelay,
               ease: [0.16, 1, 0.3, 1],
             }}
@@ -1127,6 +1127,16 @@ function SyllableText({ children, baseDelay = 0, charDelay = 0.035, style, mode 
 export default function SpatialIntro({ onDone }) {
   const [phase, setPhase] = useState(-1);
   const [muted, setMuted] = useState(false);
+  const [isFs, setIsFs] = useState(false);
+  const toggleFs = useCallback(() => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
+    else document.exitFullscreen?.().catch(() => {});
+  }, []);
+  useEffect(() => {
+    const onFs = () => setIsFs(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
   const [skipped, setSkipped] = useState(false);
   const audioRef = useRef(null);
 
@@ -1317,6 +1327,18 @@ export default function SpatialIntro({ onDone }) {
         className="absolute z-[110] flex items-center gap-[1cqw]"
         style={{ right: "2cqw", top: "2cqw" }}
       >
+        <button
+          onClick={toggleFs}
+          aria-label={isFs ? "Esci da schermo intero" : "Schermo intero"}
+          className="ctrl-btn"
+          style={{
+            width: "clamp(2rem,3.2cqw,3.4rem)",
+            height: "clamp(2rem,3.2cqw,3.4rem)",
+          }}
+          data-testid="intro-fullscreen"
+        >
+          {isFs ? <Minimize size={18} /> : <Maximize size={18} />}
+        </button>
         <button
           onClick={toggleMute}
           aria-label={muted ? "Riattiva audio" : "Silenzia"}
