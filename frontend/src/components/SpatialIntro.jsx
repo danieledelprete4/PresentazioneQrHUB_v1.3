@@ -995,10 +995,10 @@ function RoadmapVisual() {
   ];
   return (
     <div
-      className="grid gap-[1.2cqw]"
+      className="grid gap-[2cqw]"
       style={{
         gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-        width: "clamp(20rem, 50cqw, 42rem)",
+        width: "clamp(26rem, 66cqw, 60rem)",
       }}
     >
       {items.map((m, i) => (
@@ -1010,23 +1010,23 @@ function RoadmapVisual() {
           style={{
             gridColumn: i === 3 ? "1 / span 1" : i === 4 ? "2 / span 2" : "auto",
             border: `1px solid ${m.c}55`,
-            borderLeft: `3px solid ${m.c}`,
-            background: "rgba(255,255,255,0.03)",
-            padding: "1.4cqh 1.2cqw",
-            borderRadius: "10px",
+            borderLeft: `5px solid ${m.c}`,
+            background: "rgba(255,255,255,0.04)",
+            padding: "2.6cqh 1.8cqw",
+            borderRadius: "16px",
             color: "#fff",
             backdropFilter: "blur(6px)",
             fontFamily: "ui-monospace, monospace",
             letterSpacing: "0.04em",
-            fontSize: "clamp(0.6rem,1.15cqw,1.15rem)",
+            fontSize: "clamp(0.9rem,1.9cqw,2rem)",
             fontWeight: 700,
             display: "flex",
             alignItems: "center",
-            gap: "0.7cqw",
+            gap: "1cqw",
             willChange: "transform,opacity",
           }}
         >
-          <span style={{ color: m.c, fontSize: "clamp(0.45rem,0.85cqw,0.85rem)", opacity: 0.7 }}>0{i + 1}</span>
+          <span style={{ color: m.c, fontSize: "clamp(0.7rem,1.4cqw,1.5rem)", opacity: 0.7 }}>0{i + 1}</span>
           {m.t}
         </motion.div>
       ))}
@@ -1339,6 +1339,7 @@ export default function SpatialIntro({ onDone }) {
           aria-label={isFs ? "Esci da schermo intero" : "Schermo intero"}
           className="ctrl-btn"
           style={{
+            position: "relative",
             width: "clamp(2rem,3.2cqw,3.4rem)",
             height: "clamp(2rem,3.2cqw,3.4rem)",
           }}
@@ -1351,6 +1352,7 @@ export default function SpatialIntro({ onDone }) {
           aria-label={muted ? "Riattiva audio" : "Silenzia"}
           className="ctrl-btn"
           style={{
+            position: "relative",
             width: "clamp(2rem,3.2cqw,3.4rem)",
             height: "clamp(2rem,3.2cqw,3.4rem)",
           }}
@@ -1363,6 +1365,7 @@ export default function SpatialIntro({ onDone }) {
           aria-label="Salta intro"
           className="ctrl-btn flex items-center"
           style={{
+            position: "relative",
             paddingLeft: "1cqw",
             paddingRight: "1.2cqw",
             height: "clamp(2rem,3.2cqw,3.4rem)",
