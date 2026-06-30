@@ -78,7 +78,27 @@ const ProssimiPassi = () => {
   );
 };
 
-/* SLIDE 25 — Finale */
+/* SLIDE 25 — Vision */
+const Vision = () => (
+  <SlideShell overlay="radial-gradient(120% 120% at 50% 40%, rgba(200,255,0,0.06) 0%, rgba(0,0,0,0.9) 70%)" contentClassName="justify-center">
+    <Kicker color="lime">Vision</Kicker>
+    <FadeUp delay={0.2}>
+      <h2 className="t-h1 text-white glow-lime max-w-[70cqw]">Progettato per evolvere.</h2>
+    </FadeUp>
+    <FadeUp delay={0.5}>
+      <p className="t-sub mt-[5cqh] max-w-[58cqw] leading-relaxed">
+        Un ecosistema in continua crescita, costruito per adattarsi alle esigenze di persone, aziende e partner.
+      </p>
+    </FadeUp>
+    <FadeUp delay={0.75}>
+      <p className="t-sub mt-[2.5cqh] max-w-[58cqw] leading-relaxed">
+        Ogni evoluzione nasce dall’<span style={{ color: "#C8FF00" }}>ascolto</span>, dall’<span style={{ color: "#FFB066" }}>esperienza</span> e dall’<span style={{ color: "#FF6600" }}>innovazione</span>.
+      </p>
+    </FadeUp>
+  </SlideShell>
+);
+
+/* SLIDE 26 — Finale */
 const Finale = () => (
   <SlideShell bg="closing_slide_bg.png" overlay="radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 70%)" contentClassName="items-center justify-center text-center">
     <FadeUp delay={0.2}>
@@ -94,4 +114,4 @@ const Finale = () => (
   </SlideShell>
 );
 
-export default [<OpenSource key="s22" />, <Tips key="s23" />, <ProssimiPassi key="s24" />, <Finale key="s25" />];
+export default [<OpenSource key="s22" />, <Tips key="s23" />, <ProssimiPassi key="s24" />, <Vision key="s25" />, <Finale key="s26" />];
