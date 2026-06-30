@@ -95,7 +95,7 @@ const Scansione = () => (
       </FadeUp>
       <FadeUp delay={0.45}>
         <p className="t-sub mt-[3.5cqh]">
-          Fotocamera. Un secondo. Nessuna app da scaricare.
+          Fotocamera. Un secondo. E no, non deve scaricare l'ennesima app.
         </p>
       </FadeUp>
     </div>
@@ -106,7 +106,7 @@ const Scansione = () => (
 const Landing = () => (
   <SlideShell>
     <Split
-      left={<StepText step="Step 2 · La Landing" title={<>Si apre la pagina personale.</>} sub="Nessuna app da scaricare. Solo il consulente, subito raggiungibile." />}
+      left={<StepText step="Step 2 · La Landing" title={<>Si apre la pagina personale.</>} sub="Niente download, niente attese. Solo il consulente, già lì ad aspettare." />}
       right={<PhoneStage src="landing_v2.png" fxColor="#C8FF00" />}
     />
   </SlideShell>
@@ -126,7 +126,7 @@ const Azioni = () => (
 const Install = () => (
   <SlideShell>
     <Split
-      left={<StepText step="Step 4 · Installa PWA" title={<>Il consulente diventa un'app.</>} sub="«Aggiungi alla schermata Home»: un'icona sempre presente sul telefono del cliente." />}
+      left={<StepText step="Step 4 · Installa PWA" title={<>Il consulente diventa un'app.</>} sub="«Aggiungi alla schermata Home» e il gioco è fatto. Senza mai passare dallo store." />}
       right={<PhoneStage src="install.webp" fxColor="#C8FF00" />}
     />
   </SlideShell>
@@ -146,7 +146,7 @@ const HomeIcon = () => (
 const Push = () => (
   <SlideShell>
     <Split
-      left={<StepText step="Step 6 · Notifiche Push" accent="orange" title={<>Il cliente sceglie cosa ricevere.</>} sub="Push dirette, senza app store. È Federica a chiedere il permesso." />}
+      left={<StepText step="Step 6 · Notifiche Push" accent="orange" title={<>Il cliente sceglie cosa ricevere.</>} sub="Push dirette, senza store. E per una volta, è il negozio a chiedere il permesso." />}
       right={<PhoneStage src="push.webp" fxColor="#FF6600" />}
     />
   </SlideShell>

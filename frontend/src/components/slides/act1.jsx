@@ -32,8 +32,8 @@ const Genesi = () => (
     <div className="grid grid-cols-12 gap-[4cqw] h-full items-center">
       <div className="col-span-6">
         <Kicker color="lime">La Genesi</Kicker>
-        <FadeUp delay={0.2}><h2 className="t-h1 text-white">Da dove nasce QRHub.</h2></FadeUp>
-        <FadeUp delay={0.5}><p className="t-sub mt-[4cqh] max-w-[44cqw]">Trasformare un QR in una <span className="text-white font-medium">leva commerciale senza confini</span> — un canale diretto tra il consulente e il cliente, oltre la vendita.</p></FadeUp>
+        <FadeUp delay={0.2}><h2 className="t-h1 text-white">Tutto è nato da un cartellino.</h2></FadeUp>
+        <FadeUp delay={0.5}><p className="t-sub mt-[4cqh] max-w-[44cqw]">Prendere un QR e trasformarlo in <span className="text-white font-medium">una leva commerciale senza confini</span>. Sì, proprio quel quadratino che di solito nessuno scansiona.</p></FadeUp>
       </div>
       <div className="col-span-6">
         <SlideIn delay={0.35} x={70}><MacShot src="mac_a.png" /></SlideIn>
@@ -48,7 +48,7 @@ const Problema = () => (
     <div className="max-w-[58cqw]">
       <Kicker color="orange">Il Problema</Kicker>
       <FadeUp delay={0.25}><h2 className="t-h1 text-white">Il cliente esce<br />dal negozio.</h2></FadeUp>
-      <FadeUp delay={0.6}><p className="t-display mt-[2cqh]" style={{ color: "#FF6600" }}>E poi?</p></FadeUp>
+      <FadeUp delay={0.6}><p className="t-display mt-[2cqh]" style={{ color: "#FF6600" }}>E poi? Silenzio.</p></FadeUp>
     </div>
   </SlideShell>
 );
@@ -72,7 +72,7 @@ const Soluzione = () => (
       </FadeUp>
       <FadeUp delay={0.6}>
         <p className="t-sub mt-[4cqh] max-w-[42cqw]">
-          Federica indossa il suo cartellino. Il cliente la porta a casa, nel telefono.
+          Federica indossa il cartellino. Il cliente se la porta a casa. Nel telefono, s'intende.
         </p>
       </FadeUp>
     </div>

@@ -102,8 +102,8 @@ const ContaPersone = () => (
   <MacLayout
     kicker="Conta Persone"
     accent="orange"
-    title={<>Chi scansiona, chi scrive.</>}
-    sub="Il contapersone del negozio: ogni QR scansionato è un ingresso, ogni conversazione WhatsApp avviata è un cliente caldo, pronto da seguire."
+    title={<>C'è chi scansiona, e chi scrive.</>}
+    sub="Il contapersone del negozio: ogni QR scansionato è un ingresso, ogni conversazione WhatsApp avviata è un cliente caldo. Gli altri li chiamiamo «passanti»."
     src="mac_d.png"
   />
 );
@@ -123,7 +123,7 @@ const EsportaPDF = () => (
     kicker="Esporta PDF"
     accent="lime"
     title={<>Report scaricabile.</>}
-    sub="Analytics dettagliata, pronta da esportare. Per riunioni, valutazioni e coaching."
+    sub="Analytics dettagliata, pronta da esportare. Un PDF, e la riunione si scrive da sola."
     src="mac_b.png"
   />
 );
